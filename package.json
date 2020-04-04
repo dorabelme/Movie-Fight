@@ -1,0 +1,22 @@
+{
+    "name": "movie-fight",
+    "version": "1.0.0",
+    "description": "Movie Project",
+    "main": "index.js",
+    "dependencies": {
+        "prettier": "^1.19.1"
+    },
+    "scripts": {
+        "test": "test"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/dorabelme/Movie-Fight.git"
+    },
+    "author": "Dora Belme",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/dorabelme/Movie-Fight/issues"
+    },
+    "homepage": "https://github.com/dorabelme/Movie-Fight#readme"
+}
