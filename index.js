@@ -1,33 +1,69 @@
-const fetchData = async (searchTerm) => {
-    const response = await axios.get("http://www.omdbapi.com/", {
+const fetchData = async searchTerm => {
+    const response = await axios.get('http://www.omdbapi.com/', {
         params: {
             apikey: '1dbb59c1',
-            s: searchTerm
-        }
-    });
-    console.log(response.data);
-};
+            s: searchTerm,
+        },
+    })
 
+    if (response.data.Error) {
+        return [];
+    }
+    return response.data.Search
+}
 
-const input = document.querySelector("input");
+const root = document.querySelector(".autocomplete");
+root.innerHTML = `
+    <label> <b>Search For a Movie</b></label >
+    <input class="input">
+    <div class="dropdown">
+        <div class="dropdown-menu">
+            <div class="dropdown-content results"></div>
+        </div>
+    </div>
+    `;
 
-const debounce = (func, delay = 1000) => {
-    let timeoutId;
-    return (...args) => {
-        if (timeoutId) {
-            clearTimeout(timeoutId);
-        }
-        timeoutId = setTimeout(() => {
-            func.apply(null, args);
-        }, delay)
-    };
-};
+const input = document.querySelector('input');
+const dropdown = document.querySelector('.dropdown');
+const resultsWrapper = document.querySelector('.results');
 
-const onInput = event => {
-    fetchData(event.target.value);
-};
+const onInput = async event => {
+    const movies = await fetchData(event.target.value);
+    if (!movies.length) {
+        dropdown.classList.remove('is-active');
+        return;
+    }
+
+    resultsWrapper.innerHTML = '';
+
+    dropdown.classList.add('is-active');
+
+    for (let movie of movies) {
+        const option = document.createElement('a');
+        const imgSrc = movie.Poster === 'N/A' ? '' : movie.Poster;
+
+        option.classList.add('dropdown-item');
+        option.innerHTML = `
+        <img src = "${imgSrc}"/>
+        ${movie.Title}
+        `;
+
+        option.addEventListener('click', () => {
+            dropdown.classList.remove('is-active');
+            input.value = movie.Title;
+        })
+
+        resultsWrapper.appendChild(option);
+    }
+}
 
 input.addEventListener('input', debounce(onInput, 500));
+
+document.addEventListener('click', event => {
+    if (!root.contains(event.target)) {
+        dropdown.classList.remove('is-active');
+    }
+});
 
 /* SIMPLE SOLUTION */
 
