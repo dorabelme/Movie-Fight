@@ -5,7 +5,7 @@ An app that compares the performance of different movies built using vanilla Jav
 ## Short demo:
 
 <p align ="center">
-<img src="./findr.gif" alt="movie fight app example">
+<img src="./movie_fight.gif" alt="movie fight app example">
 </p>
 
 ## Tech Stack
